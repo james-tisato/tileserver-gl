@@ -163,6 +163,13 @@ function start(opts) {
     app.use(cors());
   }
 
+  app.use(function (req, res, next) {
+    if (req.method == 'GET') {
+      res.set('Cache-control', 'public, max-age=86400');
+    } 
+    next();
+  })
+
   app.use('/data/', serve_data.init(options, serving.data));
   app.use('/styles/', serve_style.init(options, serving.styles));
   if (!isLight) {
